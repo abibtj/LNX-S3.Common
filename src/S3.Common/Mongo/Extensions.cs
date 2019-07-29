@@ -2,6 +2,7 @@ using Autofac;
 using S3.Common.Types;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace S3.Common.Mongo
 {
@@ -9,6 +10,9 @@ namespace S3.Common.Mongo
     {
         public static void AddMongo(this ContainerBuilder builder)
         {
+            // Set Guid representation to standard before creating a Mongo client
+            BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
+
             builder.Register(context =>
             {
                 var configuration = context.Resolve<IConfiguration>();
@@ -20,7 +24,6 @@ namespace S3.Common.Mongo
             builder.Register(context =>
             {
                 var options = context.Resolve<MongoDbOptions>();
-
                 return new MongoClient(options.ConnectionString);
             }).SingleInstance();
 

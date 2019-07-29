@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
 
 namespace S3.Common.Swagger
 {
@@ -34,6 +35,11 @@ namespace S3.Common.Swagger
                         Name = "Authorization",
                         In = "header",
                         Type = "apiKey"
+                    });
+
+                    c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                    {
+                        { "Bearer", new string[] {} }
                     });
                 }
             });

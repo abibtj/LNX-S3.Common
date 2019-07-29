@@ -43,7 +43,7 @@ namespace S3.Common.Authentication
         {
             if (string.IsNullOrWhiteSpace(userId))
             {
-                throw new ArgumentException("User id claim can not be empty.", nameof(userId));
+                throw new ArgumentException("User id claim cannot be empty.", nameof(userId));
             }
 
             var now = DateTime.UtcNow;
