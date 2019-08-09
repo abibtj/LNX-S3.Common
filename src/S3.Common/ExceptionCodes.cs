@@ -2,7 +2,8 @@ namespace S3.Common
 {
     public static class ExceptionCodes
     {
-        public static string EmailInUse => "email_in_use";
+        public static string Unauthorized => "unauthorized_action";
+        public static string UsernameInUse => "username_in_use";
         public static string InvalidCredentials => "invalid_credentials";
         public static string InvalidCurrentPassword => "invalid_current_password";
         public static string InvalidEmail => "invalid_email";
@@ -11,7 +12,10 @@ namespace S3.Common
         public static string RefreshTokenNotFound => "refresh_token_not_found";
         public static string RefreshTokenAlreadyRevoked => "refresh_token_already_revoked";
         public static string SchoolNameInUse => "school_name_in_use";
+        public static string ParentNotFound => "parent_not_found";
         public static string SchoolNotFound => "school_not_found";
+        public static string StudentNotFound => "student_not_found";
+        public static string TeacherNotFound => "teacher_not_found";
         public static string UserNotFound => "user_not_found";
     }
 }
