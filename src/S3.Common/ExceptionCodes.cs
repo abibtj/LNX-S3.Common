@@ -12,10 +12,6 @@ namespace S3.Common
         public static string RefreshTokenNotFound => "refresh_token_not_found";
         public static string RefreshTokenAlreadyRevoked => "refresh_token_already_revoked";
         public static string SchoolNameInUse => "school_name_in_use";
-        public static string ParentNotFound => "parent_not_found";
-        public static string SchoolNotFound => "school_not_found";
-        public static string StudentNotFound => "student_not_found";
-        public static string TeacherNotFound => "teacher_not_found";
-        public static string UserNotFound => "user_not_found";
+        public static string NotFound => "not_found";
     }
 }
