@@ -32,7 +32,10 @@ namespace S3.Common.Mvc
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             return services
-                .AddMvcCore()
+                .AddMvcCore(options =>
+                {
+                    options.Filters.Add(typeof(ValidateModelStateAttribute));
+                })
                 .AddJsonFormatters()
                 .AddDataAnnotations()
                 .AddApiExplorer()
