@@ -69,6 +69,8 @@ namespace S3.Common.Swagger
                 {
                     c.SwaggerEndpoint($"/{routePrefix}/{options.Name}/swagger.json", options.Title);
                     c.RoutePrefix = routePrefix;
+                    // The Swagger json definition will be available at "{baseUrl}/{routPrefix}/{options.Name}/swagger.json" e.g "http://localhost:4001/docs/v1/swagger.json"
+                    // The Swagger UI will be available at "{baseUrl}/{routPrefix}/index.html" e.g "http://localhost:4001/docs/index.html"
                 });
         }
     }
