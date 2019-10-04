@@ -37,12 +37,12 @@ namespace S3.Common.Mvc
         {
             var errorCode = "error";
             var statusCode = HttpStatusCode.BadRequest;
-            var message = "There was an error.";
+            //var message = "There was an error.";
             switch(exception)
             {
                 case S3Exception e:
                     errorCode = e.Code;
-                    message = e.Message;
+                    //message = e.Message;
                     break;
             }
             var response = new { code = errorCode, message = exception.Message };
