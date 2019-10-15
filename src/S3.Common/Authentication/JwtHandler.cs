@@ -39,7 +39,7 @@ namespace S3.Common.Authentication
             };
         }
 
-        public JsonWebToken CreateToken(string userId, string role = null, IDictionary<string, string> claims = null)
+        public JsonWebToken CreateToken(string userId, string[] roles = null, IDictionary<string, string> claims = null)
         {
             if (string.IsNullOrWhiteSpace(userId))
             {
@@ -54,10 +54,17 @@ namespace S3.Common.Authentication
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString()),
             };
-            if (!string.IsNullOrWhiteSpace(role))
+            if (!(roles is null) && roles.Length > 0)
             {
-                jwtClaims.Add(new Claim(ClaimTypes.Role, role));
+                foreach (var role in roles)
+                {
+                    jwtClaims.Add(new Claim(ClaimTypes.Role, role));
+                }
             }
+            //if (!string.IsNullOrWhiteSpace(roles))
+            //{
+            //    jwtClaims.Add(new Claim(ClaimTypes.Role, roles));
+            //}
 
             var customClaims = claims?.Select(claim => new Claim(claim.Key, claim.Value)).ToArray()
                                ?? Array.Empty<Claim>();
@@ -78,7 +85,8 @@ namespace S3.Common.Authentication
                 RefreshToken = string.Empty,
                 Expires = expires.ToTimestamp(),
                 Id = userId,
-                Role = role ?? string.Empty,
+                Roles = roles,
+                //Roles = roles ?? string.Empty,
                 Claims = customClaims.ToDictionary(c => c.Type, c => c.Value)
             };
         }
@@ -92,10 +100,14 @@ namespace S3.Common.Authentication
                 return null;
             }
 
+            List<string> roles = new List<string>();
+            jwt.Claims.Where(x => x.Type == ClaimTypes.Role)?.ToList().ForEach(y => roles.Add(y.Value));
+
             return new JsonWebTokenPayload
             {
                 Subject = jwt.Subject,
-                Role = jwt.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Role)?.Value,
+                Roles = roles.ToArray(),
+                //Role = jwt.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Role)?.Value,
                 Expires = jwt.ValidTo.ToTimestamp(),
                 Claims = jwt.Claims.Where(x => !DefaultClaims.Contains(x.Type))
                     .ToDictionary(k => k.Type, v => v.Value)

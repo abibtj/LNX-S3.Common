@@ -8,7 +8,7 @@ namespace S3.Common.Authentication
         public string RefreshToken { get; set; }
         public long Expires { get; set; }
         public string Id { get; set; }
-        public string Role { get; set; }
+        public string[] Roles { get; set; }
         public IDictionary<string, string> Claims { get; set; }
     }
 }
