@@ -13,7 +13,7 @@ namespace S3.Common.Types
         public Expression<Func<T, object>>[]? IncludeExpressions { get; }
 
         [JsonConstructor]
-        public GetQuery(Guid id, string[]? includeArray)
+        public GetQuery(Guid id, string[]? includeArray = null)
         {
             Id = id;
             IncludeExpressions = null;
