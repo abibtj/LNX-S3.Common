@@ -34,12 +34,13 @@ namespace S3.Common.Mvc
             return services
                 .AddMvcCore(options =>
                 {
+                    options.EnableEndpointRouting = false;
                     options.Filters.Add(typeof(ValidateModelStateAttribute));
                 })
-                .AddJsonFormatters()
+                //.AddJsonFormatters()
                 .AddDataAnnotations()
                 .AddApiExplorer()
-                .AddDefaultJsonOptions()
+                //.AddDefaultJsonOptions()
                 .AddAuthorization();
         }
 
@@ -61,13 +62,13 @@ namespace S3.Common.Mvc
         public static IMvcCoreBuilder AddDefaultJsonOptions(this IMvcCoreBuilder builder)
             => builder.AddJsonOptions(o =>
             {
-                o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                o.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
-                o.SerializerSettings.DateParseHandling = DateParseHandling.DateTimeOffset;
-                o.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
-                o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                o.SerializerSettings.Formatting = Formatting.Indented;
-                o.SerializerSettings.Converters.Add(new StringEnumConverter());
+                //o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                //o.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+                //o.SerializerSettings.DateParseHandling = DateParseHandling.DateTimeOffset;
+                //o.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
+                //o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //o.SerializerSettings.Formatting = Formatting.Indented;
+                //o.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
 
         public static IApplicationBuilder UseErrorHandler(this IApplicationBuilder builder)

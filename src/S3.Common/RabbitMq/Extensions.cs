@@ -16,6 +16,9 @@ using RawRabbit.Enrichers.MessageContext;
 using RawRabbit.Instantiation;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using Microsoft.Extensions.DependencyInjection;
+//using MassTransit;
+using RabbitMQ.Client;
 
 namespace S3.Common.RabbitMq
 {
@@ -24,6 +27,24 @@ namespace S3.Common.RabbitMq
         public static IBusSubscriber UseRabbitMq(this IApplicationBuilder app)
             => new BusSubscriber(app);
 
+        //public static void AddRabbit(this IServiceCollection services)
+        //{
+        //    services.AddSingleton(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+        //    {
+        //        cfg.Host("appSettings.QueueSettings.HostName", "appSettings.QueueSettings.VirtualHost",
+        //            h => {
+        //                h.Username("appSettings.QueueSettings.UserName");
+        //                h.Password("appSettings.QueueSettings.Password");
+        //            });
+
+        //        cfg.ExchangeType = ExchangeType.Direct;
+        //    }));
+
+        //    services.AddSingleton<IPublishEndpoint>(provider => provider.GetRequiredService<IBusControl>());
+        //    services.AddSingleton<ISendEndpointProvider>(provider => provider.GetRequiredService<IBusControl>());
+        //    services.AddSingleton<IBus>(provider => provider.GetRequiredService<IBusControl>());
+
+        //}
         public static void AddRabbitMq(this ContainerBuilder builder)
         {
             builder.Register(context =>

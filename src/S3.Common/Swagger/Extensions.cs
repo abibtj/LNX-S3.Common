@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
+//using Swashbuckle.Swagger;
 using System.Collections.Generic;
 
 namespace S3.Common.Swagger
@@ -25,25 +27,73 @@ namespace S3.Common.Swagger
 
             return services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc(options.Name, new Info {Title = options.Title, Version = options.Version});
+                c.SwaggerDoc(options.Name, new OpenApiInfo { Title = options.Title, Version = options.Version });
+
                 if (options.IncludeSecurity)
                 {
-                    c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                     {
-                        Description =
-                            "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                        In = ParameterLocation.Header,
+                        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                         Name = "Authorization",
-                        In = "header",
-                        Type = "apiKey"
+                        Type = SecuritySchemeType.ApiKey
                     });
-
-                    c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
                     {
-                        { "Bearer", new string[] {} }
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                        }
                     });
                 }
             });
+
+            //return services;
         }
+
+        //public static IServiceCollection AddSwaggerDocs(this IServiceCollection services)
+        //{
+        //    SwaggerOptions options;
+        //    using (var serviceProvider = services.BuildServiceProvider())
+        //    {
+        //        var configuration = serviceProvider.GetService<IConfiguration>();
+        //        services.Configure<SwaggerOptions>(configuration.GetSection("swagger"));
+        //        options = configuration.GetOptions<SwaggerOptions>("swagger");
+        //    }
+
+        //    if (!options.Enabled)
+        //    {
+        //        return services;
+        //    }
+
+        //    return services.AddSwaggerGen(c =>
+        //    {
+        //        c.SwaggerDoc(options.Name, new Info { title = options.Title, version = options.Version });
+        //        if (options.IncludeSecurity)
+        //        {
+        //            c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+        //            {
+        //                Description =
+        //                    "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        //                Name = "Authorization",
+        //                In = "header",
+        //                Type = "apiKey"
+        //            });
+
+        //            c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+        //            {
+        //                { "Bearer", new string[] {} }
+        //            });
+        //        }
+        //    });
+        //}
 
         public static IApplicationBuilder UseSwaggerDocs(this IApplicationBuilder builder)
         {
